@@ -1,4 +1,4 @@
-public struct Note: CustomStringConvertible, Equatable {
+public struct Note: CustomStringConvertible, Equatable, Hashable {
     
     /// The letter of a music note in English Notation
     public enum Letter: String, CaseIterable, CustomStringConvertible {
@@ -16,6 +16,16 @@ public struct Note: CustomStringConvertible, Equatable {
         case B      = "B"
 
         public var description: String { rawValue }
+        
+        public var isBlack:Bool{
+            switch self {
+            case .ASharp ,.CSharp, .DSharp, .FSharp, .GSharp:
+                return true
+            default:
+                return false
+            }
+        }
+        
     }
 
     /// The index of the note
@@ -93,5 +103,28 @@ public struct Note: CustomStringConvertible, Equatable {
     
     public static func == (lhs: Note, rhs: Note) -> Bool {
         return lhs.index == rhs.index
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(index)
+    }
+    
+    
+    public static func notes(octave:Int = 4)->[Note]{
+        return try! [
+            Note(letter: Note.Letter.C, octave: octave),
+            Note(letter: .CSharp, octave: octave),
+            Note(letter: Note.Letter.D, octave: octave),
+            Note(letter: .DSharp, octave: octave),
+            Note(letter: Note.Letter.E, octave: octave),
+            Note(letter: Note.Letter.F, octave: octave),
+            Note(letter: .FSharp, octave: octave),
+            Note(letter: Note.Letter.G, octave: octave),
+            Note(letter: .GSharp, octave: octave),
+            Note(letter: Note.Letter.A, octave: octave),
+            Note(letter: .ASharp, octave: octave),
+            Note(letter: Note.Letter.B, octave: octave),
+            Note(letter: Note.Letter.C, octave: octave+1),
+        ]
     }
 }
