@@ -30,10 +30,17 @@ struct FFTTransformer: Transformer {
 
                 // Transforming the [Float] buffer into a UnsafePointer<Float> object for the vDSP_ctoz method
                 // And then pack the input into the complex buffer (output)
-                let temp = UnsafePointer<Float>(transferBuffer)
-                temp.withMemoryRebound(to: DSPComplex.self, capacity: transferBuffer.count) { typeConvertedTransferBuffer in
-                    vDSP_ctoz(typeConvertedTransferBuffer, 2, &output, 1, vDSP_Length(inputCount))
-                }
+                
+//                let temp = UnsafePointer<Float>(transferBuffer)
+//                temp.withMemoryRebound(to: DSPComplex.self, capacity: transferBuffer.count) { typeConvertedTransferBuffer in
+//                    vDSP_ctoz(typeConvertedTransferBuffer, 2, &output, 1, vDSP_Length(inputCount))
+//                }
+                
+                transferBuffer.withUnsafeBytes({ptr in
+                    let base = ptr.bindMemory(to: DSPComplex.self).baseAddress!
+                    vDSP_ctoz(base, 2, &output, 1, vDSP_Length(inputCount))
+                })
+                
 
                 // Perform the FFT
                 vDSP_fft_zrip(fftSetup!, &output, 1, log2n, FFTDirection(FFT_FORWARD))

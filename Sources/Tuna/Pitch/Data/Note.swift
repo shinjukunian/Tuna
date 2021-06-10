@@ -1,5 +1,5 @@
-public struct Note: CustomStringConvertible {
-
+public struct Note: CustomStringConvertible, Equatable {
+    
     /// The letter of a music note in English Notation
     public enum Letter: String, CaseIterable, CustomStringConvertible {
         case C      = "C"
@@ -89,5 +89,9 @@ public struct Note: CustomStringConvertible {
     /// - Returns: A note that is one semitone higher
     public func higher() throws -> Note {
         try Note(index: index + 1)
+    }
+    
+    public static func == (lhs: Note, rhs: Note) -> Bool {
+        return lhs.index == rhs.index
     }
 }

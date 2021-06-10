@@ -5,7 +5,7 @@ import AVFoundation
 import UIKit
 #endif
 
-public protocol PitchEngineDelegate: class {
+public protocol PitchEngineDelegate: AnyObject {
     func pitchEngine(_ pitchEngine: PitchEngine, didReceive result: Result<Pitch, Error>)
 }
 
@@ -91,7 +91,7 @@ public class PitchEngine {
                 }
             }
 
-        case AVAudioSessionRecordPermission.undetermined:
+        case AVAudioSession.RecordPermission.undetermined:
             AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
                 guard let self = self else { return }
 
