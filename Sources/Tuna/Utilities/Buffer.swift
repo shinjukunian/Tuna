@@ -1,4 +1,4 @@
-struct Buffer {
+public struct Buffer {
     let elements: [Float]
     let realElements: [Float]?
     let imagElements: [Float]?
@@ -9,7 +9,7 @@ struct Buffer {
 
     // MARK: - Initialization
 
-    init(elements: [Float], realElements: [Float]? = nil, imagElements: [Float]? = nil) {
+    public init(elements: [Float], realElements: [Float]? = nil, imagElements: [Float]? = nil) {
         self.elements     = elements
         self.realElements = realElements
         self.imagElements = imagElements
