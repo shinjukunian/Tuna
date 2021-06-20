@@ -15,7 +15,15 @@ public struct YINEstimator: Estimator {
 
     public init(){}
     
-    public func estimateFrequency(sampleRate: Float, buffer: Buffer) throws -> Float {
+    
+    public func estimateFrequency(sampleRate: Float, buffer: [Float]) throws -> Float{
+        let diffElements = YINUtil.differenceA(buffer: buffer)
+        let b=Buffer(elements: diffElements)
+        return try estimateFrequency(sampleRate: sampleRate, buffer: b)
+        
+    }
+    
+    func estimateFrequency(sampleRate: Float, buffer: Buffer) throws -> Float {
         var elements = buffer.elements
 
         YINUtil.cumulativeDifference(yinBuffer: &elements)
